@@ -11,8 +11,10 @@ source:
 
 build:
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  script: 
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+    - {{ PYTHON }} -c "import os; os.unlink('{SP_DIR}/CHANGELOG.md'.format(os.environ))"
+  number: 1
 
 requirements:
   host:
@@ -22,7 +24,7 @@ requirements:
   run:
     - python >=3.8
     - email-validator
-    - pydantic >=1.10.0
+    - pydantic >=1.10.0,<2
 
 test:
   imports:
